@@ -210,7 +210,7 @@ namespace keystrokes_overlay
                 string arrow = below ? "▲" : "▼";
 
                 PointF arrowPos = below
-                    ? new(item.Position.X, item.Position.Y - 15)
+                    ? new(item.Position.X, item.Position.Y - 5)
                     : new(item.Position.X, item.Position.Y - 18);
 
                 PointF textPos = below
