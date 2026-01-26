@@ -34,15 +34,12 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = Color.DimGray;
-            ClientSize = new Size(800, 450);
-            ControlBox = false;
-            FormBorderStyle = FormBorderStyle.None;
+            BackColor = Color.Black;
+            ClientSize = new Size(355, 399);
+            ForeColor = SystemColors.Control;
             Name = "Form1";
             Text = "Form1";
-            TopMost = true;
-            TransparencyKey = Color.DimGray;
-            WindowState = FormWindowState.Maximized;
+            Load += Form1_Load;
             ResumeLayout(false);
         }
 
