@@ -1,14 +1,20 @@
-﻿using System;
+﻿using Gma.System.MouseKeyHook;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Resources;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
-using Gma.System.MouseKeyHook;
 
 namespace keystrokes_overlay
 {
     public class OverlayForm : Form
     {
+        // Kolory i grubość obwódkiNumericUpDown
+        public Color TextColor { get; set; } = Color.Red;
+        public Color OutlineColor { get; set; } = Color.Black;
+        public Color ArrowColor { get; set; } = Color.Yellow;
+        public int OutlineThickness { get; set; } = 1;
         private IKeyboardMouseEvents globalHook;
         private System.Windows.Forms.Timer updateTimer;
         private List<OverlayItem> overlays = new();
@@ -44,6 +50,9 @@ namespace keystrokes_overlay
 
         public OverlayForm(HashSet<string> keys, bool topMost)
         {
+            this.Icon = new Icon(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("keystrokes_overlay.icon.ico")!);
+            this.Text = "Keystrokes Overlay";
+
             allowedKeys = keys;
             overlayOnTop = topMost;
 
@@ -200,19 +209,22 @@ namespace keystrokes_overlay
                     : new(item.Position.X, item.Position.Y - 36);
 
                 int a = (int)(item.Alpha * 255);
-                using Brush textBrush = new SolidBrush(Color.FromArgb(a, Color.Red));
-                using Brush outline = new SolidBrush(Color.FromArgb(a, Color.Black));
+                using Brush textBrush = new SolidBrush(Color.FromArgb(a, TextColor));
+                using Brush outline = new SolidBrush(Color.FromArgb(a, OutlineColor));
+                using Brush arrowBrush = new SolidBrush(Color.FromArgb(a, ArrowColor));
 
-                for (int dx = -1; dx <= 1; dx++)
-                    for (int dy = -1; dy <= 1; dy++)
+                // rysowanie obwódki
+                for (int dx = -OutlineThickness; dx <= OutlineThickness; dx++)
+                    for (int dy = -OutlineThickness; dy <= OutlineThickness; dy++)
                     {
                         if (dx == 0 && dy == 0) continue;
                         e.Graphics.DrawString(item.Text, font, outline, textPos.X + dx, textPos.Y + dy, sf);
                         e.Graphics.DrawString(arrow, font, outline, arrowPos.X + dx, arrowPos.Y + dy, sf);
                     }
 
+                // rysowanie tekstu i strzałki
                 e.Graphics.DrawString(item.Text, font, textBrush, textPos, sf);
-                e.Graphics.DrawString(arrow, font, textBrush, arrowPos, sf);
+                e.Graphics.DrawString(arrow, font, arrowBrush, arrowPos, sf);
             }
         }
 

@@ -40,8 +40,7 @@
             ForeColor = SystemColors.Control;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
-            Text = "Form1";
-            Load += Form1_Load;
+            Text = "Keystrokes Overlay";
             ResumeLayout(false);
         }
 
