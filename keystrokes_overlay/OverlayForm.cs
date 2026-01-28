@@ -57,8 +57,8 @@ namespace keystrokes_overlay
             overlayOnTop = topMost;
 
             FormBorderStyle = FormBorderStyle.None;
-            BackColor = Color.Black;
-            TransparencyKey = Color.Black;
+            BackColor = Color.FromArgb(255, 0, 0, 1);
+            TransparencyKey = Color.FromArgb(255, 0, 0, 1);
             WindowState = FormWindowState.Maximized;
 
             updateTimer = new System.Windows.Forms.Timer { Interval = timerInterval };

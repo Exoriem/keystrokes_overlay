@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using static System.Windows.Forms.LinkLabel;
 
 namespace keystrokes_overlay
 {
@@ -60,6 +61,80 @@ namespace keystrokes_overlay
 
         private void InitUI()
         {
+            Label textTitle = new Label
+            {
+                Text = "Keystrokes Overlay",
+                Location = new Point(5, 5),
+                AutoSize = true,
+                Font = new Font("Segoe UI", 16, FontStyle.Bold), // zmiana fontu i rozmiaru
+                ForeColor = Color.FromArgb(255, 155, 155, 155)
+            };
+            Controls.Add(textTitle);
+            Label textVersion = new Label
+            {
+                Text = "v0.1",
+                Location = new Point(215, 18),
+                AutoSize = true,
+                Font = new Font("Segoe UI", 8, FontStyle.Bold), // zmiana fontu i rozmiaru
+                ForeColor = Color.FromArgb(255, 155, 155, 155)
+            };
+            Controls.Add(textVersion);
+            LinkLabel textTitle2 = new LinkLabel
+            {
+                Text = "Developed by Exoriem",
+                Location = new Point(245, 18),
+                AutoSize = true,
+                Font = new Font("Segoe UI", 8, FontStyle.Bold), // zmiana fontu i rozmiaru
+                ForeColor = Color.FromArgb(255, 155, 155, 155)
+            };
+            textTitle2.Links.Add(0, 20, "https://github.com/Exoriem");
+            textTitle2.LinkBehavior = LinkBehavior.NeverUnderline;
+            textTitle2.LinkColor = Color.FromArgb(255, 142, 150, 199);
+            textTitle2.MouseEnter += (s, e) => textTitle2.LinkColor = Color.FromArgb(255, 30, 152, 255); // kolor na hover
+            textTitle2.MouseLeave += (s, e) => textTitle2.LinkColor = Color.FromArgb(255, 142, 150, 199);   // przywrócenie koloru normalnego
+            textTitle2.LinkClicked += (s, e) => System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(e.Link.LinkData.ToString()) { UseShellExecute = true });
+            Controls.Add(textTitle2);
+
+            LinkLabel textTitle3 = new LinkLabel
+            {
+                Text = "Buy Me a Coffee!",
+                Location = new Point(400, 18),
+                AutoSize = true,
+                Font = new Font("Segoe UI", 8, FontStyle.Bold), // zmiana fontu i rozmiaru
+                ForeColor = Color.FromArgb(255, 155, 155, 155)
+            };
+
+            PictureBox pb = new PictureBox
+            {
+                Image = Properties.Resources.coffee2, // <-- obrazek z resources
+                SizeMode = PictureBoxSizeMode.Zoom,
+                Location = new Point(376, 14),
+                Size = new Size(22, 22),
+                Cursor = Cursors.Hand
+            };
+            pb.MouseEnter += (s, e) => { pb.Image = Properties.Resources.coffee; textTitle3.LinkColor = Color.FromArgb(255, 30, 152, 255); }; // kolor na hover
+            pb.MouseLeave += (s, e) => { pb.Image = Properties.Resources.coffee2; textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199); };  // przywrócenie koloru normalnego
+            textTitle3.MouseEnter += (s, e) => pb.Image = Properties.Resources.coffee; // kolor na hover
+            textTitle3.MouseLeave += (s, e) => pb.Image = Properties.Resources.coffee2;   // przywrócenie koloru normalnego
+
+            pb.Click += (s, e) =>
+            {
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = "https://buymeacoffee.com",
+                    UseShellExecute = true
+                });
+            };
+
+            this.Controls.Add(pb);
+
+            textTitle3.Links.Add(0, 20, "https://buymeacoffee.com");
+            textTitle3.LinkBehavior = LinkBehavior.NeverUnderline;
+            textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199);
+            textTitle3.MouseEnter += (s, e) => textTitle3.LinkColor = Color.FromArgb(255, 30, 152, 255); // kolor na hover
+            textTitle3.MouseLeave += (s, e) => textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199);   // przywrócenie koloru normalnego
+            textTitle3.LinkClicked += (s, e) => System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(e.Link.LinkData.ToString()) { UseShellExecute = true });
+            Controls.Add(textTitle3);
 
             chkTopMost = new CheckBox
             {
@@ -155,7 +230,7 @@ namespace keystrokes_overlay
             Label lblArrowColor = new Label { Text = "Arrow Color:", Location = new Point(180, 440), AutoSize = true };
             Controls.Add(lblArrowColor);
 
-            btnArrowColor = new Button { Text = "Pick", Location = new Point(260, 435), Size = new Size(80, 25), BackColor = Color.Yellow };
+            btnArrowColor = new Button { Text = "Pick", Location = new Point(260, 435), Size = new Size(80, 25), BackColor = Color.Red };
             btnArrowColor.Click += (s, e) => PickColor(c => btnArrowColor.BackColor = c);
             Controls.Add(btnArrowColor);
 
@@ -169,7 +244,7 @@ namespace keystrokes_overlay
             Label lblOutlineThickness = new Label { Text = "Outline Thickness:", Location = new Point(10, 470), AutoSize = true };
             Controls.Add(lblOutlineThickness);
 
-            nudOutlineThickness = new NumericUpDown { Location = new Point(130, 465), Size = new Size(60, 25), Minimum = 0, Maximum = 5, Value = 1 };
+            nudOutlineThickness = new NumericUpDown { Location = new Point(130, 465), Size = new Size(60, 25), Minimum = 0, Maximum = 5, Value = 0 };
             Controls.Add(nudOutlineThickness);
 
         }
@@ -198,7 +273,10 @@ namespace keystrokes_overlay
         }
         private void PickColor(Action<Color> callback)
         {
-            using ColorDialog dlg = new ColorDialog();
+            using ColorDialog dlg = new ColorDialog
+            {
+                FullOpen = true // umożliwia gradient i pełną paletę
+            };
             if (dlg.ShowDialog() == DialogResult.OK)
                 callback(dlg.Color);
         }
