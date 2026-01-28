@@ -220,6 +220,7 @@ namespace keystrokes_overlay
         {
             globalHook.Dispose();
             base.OnFormClosing(e);
+            Application.Exit();
         }
     }
 

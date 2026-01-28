@@ -56,6 +56,25 @@ namespace keystrokes_overlay
         {
             InitializeComponent();
             InitUI();
+            LoadSettings();
+        }
+        private void LoadSettings()
+        {
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.AllowedKeys))
+            {
+                allowedKeys = Properties.Settings.Default.AllowedKeys
+                    .Split(',')
+                    .ToHashSet();
+
+                for (int i = 0; i < keyList.Items.Count; i++)
+                {
+                    string key = keyList.Items[i].ToString();
+                    if (key.StartsWith("---")) continue;
+                    keyList.SetItemChecked(i, allowedKeys.Contains(key));
+                }
+            }
+
+            chkTopMost.Checked = Properties.Settings.Default.OverlayTopMost;
         }
 
         private void InitUI()
@@ -152,6 +171,9 @@ namespace keystrokes_overlay
             // Start overlay
             OverlayForm overlay = new OverlayForm(selectedKeys, topMost);
             overlay.Show();
+            Properties.Settings.Default.AllowedKeys = string.Join(",", selectedKeys);
+            Properties.Settings.Default.OverlayTopMost = chkTopMost.Checked;
+            Properties.Settings.Default.Save();
 
             // Schowaj UI
             this.Hide();
