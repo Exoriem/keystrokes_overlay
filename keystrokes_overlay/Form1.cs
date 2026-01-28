@@ -60,7 +60,6 @@ namespace keystrokes_overlay
 
         private void InitUI()
         {
-            this.Size = new Size(520, 520);
 
             chkTopMost = new CheckBox
             {
