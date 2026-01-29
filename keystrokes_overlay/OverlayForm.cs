@@ -11,10 +11,10 @@ namespace keystrokes_overlay
     public class OverlayForm : Form
     {
         // Kolory i grubość obwódkiNumericUpDown
-        public Color TextColor { get; set; } = Color.Red;
-        public Color OutlineColor { get; set; } = Color.Black;
-        public Color ArrowColor { get; set; } = Color.Yellow;
-        public int OutlineThickness { get; set; } = 1;
+        public Color TextColor;
+        public Color OutlineColor;
+        public Color ArrowColor;
+        public int OutlineThickness;
         private IKeyboardMouseEvents globalHook;
         private System.Windows.Forms.Timer updateTimer;
         private List<OverlayItem> overlays = new();
