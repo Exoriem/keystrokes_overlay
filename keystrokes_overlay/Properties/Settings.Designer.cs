@@ -94,5 +94,29 @@ namespace keystrokes_overlay.Properties {
                 this["nudOutlineThickness"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("500")]
+        public decimal durationTime {
+            get {
+                return ((decimal)(this["durationTime"]));
+            }
+            set {
+                this["durationTime"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal fadeDuration {
+            get {
+                return ((decimal)(this["fadeDuration"]));
+            }
+            set {
+                this["fadeDuration"] = value;
+            }
+        }
     }
 }

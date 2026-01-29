@@ -15,8 +15,10 @@ namespace keystrokes_overlay
         public Color OutlineColor;
         public Color ArrowColor;
         public int OutlineThickness;
+        public int DurationTime;
+        public int fadeDuration;
         private IKeyboardMouseEvents globalHook = Hook.GlobalEvents();
-private System.Windows.Forms.Timer? updateTimer;
+        private System.Windows.Forms.Timer? updateTimer;
         private List<OverlayItem> overlays = new();
         private List<string> pressedKeys = new();
 
@@ -44,14 +46,18 @@ private System.Windows.Forms.Timer? updateTimer;
         private const int WS_EX_TRANSPARENT = 0x20;
         private const int WS_EX_LAYERED = 0x80000;
 
-        private const int fadeDuration = 0;
-        private const int holdTime = 500;
         private const int timerInterval = 30;
 
         public OverlayForm(HashSet<string> keys, bool topMost)
         {
             this.Icon = new Icon(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("keystrokes_overlay.icon.ico")!);
             this.Text = "Keystrokes Overlay";
+
+            // --- Double buffering ---
+            this.SetStyle(ControlStyles.AllPaintingInWmPaint |
+                          ControlStyles.OptimizedDoubleBuffer |
+                          ControlStyles.UserPaint, true);
+            this.UpdateStyles();
 
             allowedKeys = keys;
             overlayOnTop = topMost;
@@ -171,14 +177,14 @@ private System.Windows.Forms.Timer? updateTimer;
             for (int i = overlays.Count - 1; i >= 0; i--)
             {
                 int elapsed = now - overlays[i].StartTime;
-                if (elapsed >= fadeDuration + holdTime)
+                if (elapsed >= fadeDuration + DurationTime)
                 {
                     overlays.RemoveAt(i);
                     refresh = true;
                 }
-                else if (elapsed > holdTime)
+                else if (elapsed > DurationTime)
                 {
-                    overlays[i].Alpha = 1f - (float)(elapsed - holdTime) / fadeDuration;
+                    overlays[i].Alpha = 1f - (float)(elapsed - DurationTime) / fadeDuration;
                     refresh = true;
                 }
             }

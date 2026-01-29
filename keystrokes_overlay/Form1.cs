@@ -17,6 +17,8 @@ namespace keystrokes_overlay
         private Button btnArrowColor = null!;
         private Button btnOutlineColor = null!;
         private NumericUpDown nudOutlineThickness = null!;
+        private NumericUpDown nudDurationTime = null!;
+        private NumericUpDown nudFadeoutTime = null!;
 
         private GroupBox grpLetters = null!;
         private GroupBox grpNumbers = null!;
@@ -236,8 +238,20 @@ namespace keystrokes_overlay
             Label lblOutlineThickness = new Label { Text = "Outline Thickness:", Location = new Point(10, 470), AutoSize = true };
             Controls.Add(lblOutlineThickness);
 
-            nudOutlineThickness = new NumericUpDown { Location = new Point(130, 465), Size = new Size(60, 25), Minimum = 0, Maximum = 3, Value = 0 };
+            nudOutlineThickness = new NumericUpDown { Location = new Point(130, 465), Size = new Size(60, 25), Minimum = 0, Maximum = 2, Value = 0 };
             Controls.Add(nudOutlineThickness);
+
+            Label lblDurationTime = new Label { Text = "Duration Time:", Location = new Point(10, 500), AutoSize = true };
+            Controls.Add(lblDurationTime);
+
+            nudDurationTime = new NumericUpDown { Location = new Point(130, 495), Size = new Size(60, 25), Minimum = 0, Maximum = 5000, Value = 500 };
+            Controls.Add(nudDurationTime);
+
+            Label lblFadeoutTime = new Label { Text = "Fade Out Time:", Location = new Point(10, 530), AutoSize = true };
+            Controls.Add(lblFadeoutTime);
+
+            nudFadeoutTime = new NumericUpDown { Location = new Point(130, 525), Size = new Size(60, 25), Minimum = 0, Maximum = 5000, Value = 500 };
+            Controls.Add(nudFadeoutTime);
 
         }
 
@@ -304,6 +318,8 @@ namespace keystrokes_overlay
             btnTextColor.BackColor = Properties.Settings.Default.btnTextColor;
             btnOutlineColor.BackColor = Properties.Settings.Default.btnOutlineColor;
             nudOutlineThickness.Value = Properties.Settings.Default.nudOutlineThickness;
+            nudDurationTime.Value = Properties.Settings.Default.durationTime;
+            nudFadeoutTime.Value = Properties.Settings.Default.fadeDuration;
         }
 
         private void RestoreCheckedState(CheckedListBox clb)
@@ -325,7 +341,9 @@ namespace keystrokes_overlay
                 TextColor = btnTextColor.BackColor,
                 ArrowColor = btnArrowColor.BackColor,
                 OutlineColor = btnOutlineColor.BackColor,
-                OutlineThickness = (int)nudOutlineThickness.Value
+                OutlineThickness = (int)nudOutlineThickness.Value,
+                DurationTime = (int)nudDurationTime.Value,
+                fadeDuration = (int)nudFadeoutTime.Value
             };
             overlay.Show();
 
@@ -334,6 +352,8 @@ namespace keystrokes_overlay
             Properties.Settings.Default.btnTextColor = btnTextColor.BackColor;
             Properties.Settings.Default.btnOutlineColor = btnOutlineColor.BackColor;
             Properties.Settings.Default.nudOutlineThickness = nudOutlineThickness.Value;
+            Properties.Settings.Default.durationTime = nudDurationTime.Value;
+            Properties.Settings.Default.fadeDuration = nudFadeoutTime.Value;
             Properties.Settings.Default.OverlayTopMost = chkTopMost.Checked;
             Properties.Settings.Default.Save();
 

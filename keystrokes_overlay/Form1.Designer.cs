@@ -36,7 +36,7 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(518, 507);
+            ClientSize = new Size(518, 575);
             ForeColor = SystemColors.Control;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
