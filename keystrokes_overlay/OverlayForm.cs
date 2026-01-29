@@ -15,8 +15,8 @@ namespace keystrokes_overlay
         public Color OutlineColor;
         public Color ArrowColor;
         public int OutlineThickness;
-        private IKeyboardMouseEvents globalHook;
-        private System.Windows.Forms.Timer updateTimer;
+        private IKeyboardMouseEvents globalHook = Hook.GlobalEvents();
+private System.Windows.Forms.Timer? updateTimer;
         private List<OverlayItem> overlays = new();
         private List<string> pressedKeys = new();
 
@@ -44,8 +44,8 @@ namespace keystrokes_overlay
         private const int WS_EX_TRANSPARENT = 0x20;
         private const int WS_EX_LAYERED = 0x80000;
 
-        private const int fadeDuration = 500;
-        private const int holdTime = 250;
+        private const int fadeDuration = 0;
+        private const int holdTime = 500;
         private const int timerInterval = 30;
 
         public OverlayForm(HashSet<string> keys, bool topMost)
@@ -97,7 +97,7 @@ namespace keystrokes_overlay
             globalHook.MouseDown += GlobalHook_MouseDown;
         }
 
-        private void GlobalHook_KeyDown(object sender, KeyEventArgs e)
+        private void GlobalHook_KeyDown(object? sender, KeyEventArgs e)
         {
             string key = ConvertKey(e.KeyCode.ToString());
             if (!allowedKeys.Contains(key)) return;
@@ -109,15 +109,15 @@ namespace keystrokes_overlay
             }
         }
 
-        private void GlobalHook_KeyUp(object sender, KeyEventArgs e)
+        private void GlobalHook_KeyUp(object? sender, KeyEventArgs e)
         {
             string key = ConvertKey(e.KeyCode.ToString());
             pressedKeys.Remove(key);
         }
 
-        private void GlobalHook_MouseDown(object sender, MouseEventArgs e)
+        private void GlobalHook_MouseDown(object? sender, MouseEventArgs e)
         {
-            string button = e.Button switch
+            string? button = e.Button switch
             {
                 MouseButtons.Left => "LMB",
                 MouseButtons.Right => "RMB",
@@ -163,7 +163,7 @@ namespace keystrokes_overlay
             Invalidate();
         }
 
-        private void UpdateTimer_Tick(object sender, EventArgs e)
+        private void UpdateTimer_Tick(object? sender, EventArgs e)
         {
             int now = Environment.TickCount;
             bool refresh = false;
@@ -171,14 +171,14 @@ namespace keystrokes_overlay
             for (int i = overlays.Count - 1; i >= 0; i--)
             {
                 int elapsed = now - overlays[i].StartTime;
-                if (elapsed >= fadeDuration)
+                if (elapsed >= fadeDuration + holdTime)
                 {
                     overlays.RemoveAt(i);
                     refresh = true;
                 }
                 else if (elapsed > holdTime)
                 {
-                    overlays[i].Alpha = 1f - (float)(elapsed - holdTime) / (fadeDuration - holdTime);
+                    overlays[i].Alpha = 1f - (float)(elapsed - holdTime) / fadeDuration;
                     refresh = true;
                 }
             }
@@ -193,7 +193,7 @@ namespace keystrokes_overlay
             using Font font = new("Segoe UI", 12, FontStyle.Bold);
             using StringFormat sf = new() { Alignment = StringAlignment.Center };
 
-            float flipY = Screen.PrimaryScreen.Bounds.Height * 0.05f;
+            float flipY = (Screen.PrimaryScreen?.Bounds.Height ?? 1080) * 0.05f;
 
             foreach (var item in overlays)
             {
@@ -239,7 +239,7 @@ namespace keystrokes_overlay
     public class OverlayItem
     {
         public Point Position;
-        public string Text;
+        public string Text = string.Empty;
         public float Alpha;
         public int StartTime;
     }
