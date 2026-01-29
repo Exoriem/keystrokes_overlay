@@ -46,5 +46,53 @@ namespace keystrokes_overlay.Properties {
                 this["OverlayTopMost"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        public global::System.Drawing.Color btnArrowColor {
+            get {
+                return ((global::System.Drawing.Color)(this["btnArrowColor"]));
+            }
+            set {
+                this["btnArrowColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Red")]
+        public global::System.Drawing.Color btnTextColor {
+            get {
+                return ((global::System.Drawing.Color)(this["btnTextColor"]));
+            }
+            set {
+                this["btnTextColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public global::System.Drawing.Color btnOutlineColor {
+            get {
+                return ((global::System.Drawing.Color)(this["btnOutlineColor"]));
+            }
+            set {
+                this["btnOutlineColor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public decimal nudOutlineThickness {
+            get {
+                return ((decimal)(this["nudOutlineThickness"]));
+            }
+            set {
+                this["nudOutlineThickness"] = value;
+            }
+        }
     }
 }

@@ -67,7 +67,7 @@ namespace keystrokes_overlay
                 Location = new Point(5, 5),
                 AutoSize = true,
                 Font = new Font("Segoe UI", 16, FontStyle.Bold), // zmiana fontu i rozmiaru
-                ForeColor = Color.FromArgb(255, 155, 155, 155)
+                ForeColor = Color.FromArgb(255, 200, 200, 200)
             };
             Controls.Add(textTitle);
             Label textVersion = new Label
@@ -138,7 +138,7 @@ namespace keystrokes_overlay
 
             chkTopMost = new CheckBox
             {
-                Text = "Overlay nad aplikacjami",
+                Text = "Overlay on top of applications",
                 Location = new Point(10, 375),
                 AutoSize = true
             };
@@ -223,28 +223,28 @@ namespace keystrokes_overlay
             Label lblTextColor = new Label { Text = "Text Color:", Location = new Point(10, 440), AutoSize = true };
             Controls.Add(lblTextColor);
 
-            btnTextColor = new Button { Text = "Pick", Location = new Point(80, 435), Size = new Size(80, 25), BackColor = Color.Red };
+            btnTextColor = new Button { Text = "Pick", Location = new Point(80, 435), Size = new Size(80, 25) };
             btnTextColor.Click += (s, e) => PickColor(c => btnTextColor.BackColor = c);
             Controls.Add(btnTextColor);
 
             Label lblArrowColor = new Label { Text = "Arrow Color:", Location = new Point(180, 440), AutoSize = true };
             Controls.Add(lblArrowColor);
 
-            btnArrowColor = new Button { Text = "Pick", Location = new Point(260, 435), Size = new Size(80, 25), BackColor = Color.Red };
+            btnArrowColor = new Button { Text = "Pick", Location = new Point(260, 435), Size = new Size(80, 25) };
             btnArrowColor.Click += (s, e) => PickColor(c => btnArrowColor.BackColor = c);
             Controls.Add(btnArrowColor);
 
             Label lblOutlineColor = new Label { Text = "Outline Color:", Location = new Point(360, 440), AutoSize = true };
             Controls.Add(lblOutlineColor);
 
-            btnOutlineColor = new Button { Text = "Pick", Location = new Point(450, 435), Size = new Size(60, 25), BackColor = Color.Black };
+            btnOutlineColor = new Button { Text = "Pick", Location = new Point(450, 435), Size = new Size(60, 25) };
             btnOutlineColor.Click += (s, e) => PickColor(c => btnOutlineColor.BackColor = c);
             Controls.Add(btnOutlineColor);
 
             Label lblOutlineThickness = new Label { Text = "Outline Thickness:", Location = new Point(10, 470), AutoSize = true };
             Controls.Add(lblOutlineThickness);
 
-            nudOutlineThickness = new NumericUpDown { Location = new Point(130, 465), Size = new Size(60, 25), Minimum = 0, Maximum = 5, Value = 0 };
+            nudOutlineThickness = new NumericUpDown { Location = new Point(130, 465), Size = new Size(60, 25), Minimum = 0, Maximum = 3, Value = 0 };
             Controls.Add(nudOutlineThickness);
 
         }
@@ -307,6 +307,10 @@ namespace keystrokes_overlay
             }
 
             chkTopMost.Checked = Properties.Settings.Default.OverlayTopMost;
+            btnArrowColor.BackColor = Properties.Settings.Default.btnArrowColor;
+            btnTextColor.BackColor = Properties.Settings.Default.btnTextColor;
+            btnOutlineColor.BackColor = Properties.Settings.Default.btnOutlineColor;
+            nudOutlineThickness.Value = Properties.Settings.Default.nudOutlineThickness;
         }
 
         private void RestoreCheckedState(CheckedListBox clb)
@@ -332,6 +336,10 @@ namespace keystrokes_overlay
             overlay.Show();
 
             Properties.Settings.Default.AllowedKeys = string.Join(",", selectedKeys);
+            Properties.Settings.Default.btnArrowColor = btnArrowColor.BackColor;
+            Properties.Settings.Default.btnTextColor = btnTextColor.BackColor;
+            Properties.Settings.Default.btnOutlineColor = btnOutlineColor.BackColor;
+            Properties.Settings.Default.nudOutlineThickness = nudOutlineThickness.Value;
             Properties.Settings.Default.OverlayTopMost = chkTopMost.Checked;
             Properties.Settings.Default.Save();
 
