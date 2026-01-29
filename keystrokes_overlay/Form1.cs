@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -9,25 +10,25 @@ namespace keystrokes_overlay
 {
     public partial class Form1 : Form
     {
-        private CheckBox chkTopMost;
-        private Button btnStart;
+        private CheckBox chkTopMost = null!;
+        private Button btnStart = null!;
 
-        private Button btnTextColor;
-        private Button btnArrowColor;
-        private Button btnOutlineColor;
-        private NumericUpDown nudOutlineThickness;
+        private Button btnTextColor = null!;
+        private Button btnArrowColor = null!;
+        private Button btnOutlineColor = null!;
+        private NumericUpDown nudOutlineThickness = null!;
 
-        private GroupBox grpLetters;
-        private GroupBox grpNumbers;
-        private GroupBox grpSpecial;
+        private GroupBox grpLetters = null!;
+        private GroupBox grpNumbers = null!;
+        private GroupBox grpSpecial = null!;
 
-        private CheckedListBox clbLetters;
-        private CheckedListBox clbNumbers;
-        private CheckedListBox clbSpecial;
+        private CheckedListBox clbLetters = null!;
+        private CheckedListBox clbNumbers = null!;
+        private CheckedListBox clbSpecial = null!;
 
-        private Button btnToggleLetters;
-        private Button btnToggleNumbers;
-        private Button btnToggleSpecial;
+        private Button btnToggleLetters = null!;
+        private Button btnToggleNumbers = null!;
+        private Button btnToggleSpecial = null!;
 
         private HashSet<string> allowedKeys = new();
 
@@ -79,7 +80,7 @@ namespace keystrokes_overlay
                 ForeColor = Color.FromArgb(255, 155, 155, 155)
             };
             Controls.Add(textVersion);
-            LinkLabel textTitle2 = new LinkLabel
+            LinkLabel textDevelopedby = new LinkLabel
             {
                 Text = "Developed by Exoriem",
                 Location = new Point(245, 18),
@@ -87,13 +88,12 @@ namespace keystrokes_overlay
                 Font = new Font("Segoe UI", 8, FontStyle.Bold), // zmiana fontu i rozmiaru
                 ForeColor = Color.FromArgb(255, 155, 155, 155)
             };
-            textTitle2.Links.Add(0, 20, "https://github.com/Exoriem");
-            textTitle2.LinkBehavior = LinkBehavior.NeverUnderline;
-            textTitle2.LinkColor = Color.FromArgb(255, 142, 150, 199);
-            textTitle2.MouseEnter += (s, e) => textTitle2.LinkColor = Color.FromArgb(255, 30, 152, 255); // kolor na hover
-            textTitle2.MouseLeave += (s, e) => textTitle2.LinkColor = Color.FromArgb(255, 142, 150, 199);   // przywrócenie koloru normalnego
-            textTitle2.LinkClicked += (s, e) => System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(e.Link.LinkData.ToString()) { UseShellExecute = true });
-            Controls.Add(textTitle2);
+            textDevelopedby.LinkBehavior = LinkBehavior.NeverUnderline;
+            textDevelopedby.LinkColor = Color.FromArgb(255, 142, 150, 199);
+            textDevelopedby.MouseEnter += (s, e) => textDevelopedby.LinkColor = Color.FromArgb(255, 30, 152, 255); // kolor na hover
+            textDevelopedby.MouseLeave += (s, e) => textDevelopedby.LinkColor = Color.FromArgb(255, 142, 150, 199);   // przywrócenie koloru normalnego
+            textDevelopedby.LinkClicked += (s, e) => Process.Start(new ProcessStartInfo("https://github.com/Exoriem") { UseShellExecute = true });
+            Controls.Add(textDevelopedby);
 
             LinkLabel textTitle3 = new LinkLabel
             {
@@ -117,23 +117,15 @@ namespace keystrokes_overlay
             textTitle3.MouseEnter += (s, e) => pb.Image = Properties.Resources.coffee; // kolor na hover
             textTitle3.MouseLeave += (s, e) => pb.Image = Properties.Resources.coffee2;   // przywrócenie koloru normalnego
 
-            pb.Click += (s, e) =>
-            {
-                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
-                {
-                    FileName = "https://buymeacoffee.com",
-                    UseShellExecute = true
-                });
-            };
+            pb.Click += (s, e) => Process.Start(new ProcessStartInfo("https://buymeacoffee.com") { UseShellExecute = true });
 
             this.Controls.Add(pb);
 
-            textTitle3.Links.Add(0, 20, "https://buymeacoffee.com");
             textTitle3.LinkBehavior = LinkBehavior.NeverUnderline;
             textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199);
             textTitle3.MouseEnter += (s, e) => textTitle3.LinkColor = Color.FromArgb(255, 30, 152, 255); // kolor na hover
             textTitle3.MouseLeave += (s, e) => textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199);   // przywrócenie koloru normalnego
-            textTitle3.LinkClicked += (s, e) => System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(e.Link.LinkData.ToString()) { UseShellExecute = true });
+            textTitle3.LinkClicked += (s, e) => Process.Start(new ProcessStartInfo("https://buymeacoffee.com") { UseShellExecute = true });
             Controls.Add(textTitle3);
 
             chkTopMost = new CheckBox
@@ -262,7 +254,8 @@ namespace keystrokes_overlay
 
             clb.ItemCheck += (s, e) =>
             {
-                string key = clb.Items[e.Index].ToString();
+                string? key = clb.Items[e.Index] as string;
+                if (key == null) return; // nic nie robimy jeśli null
                 if (e.NewValue == CheckState.Checked)
                     allowedKeys.Add(key);
                 else
@@ -288,8 +281,8 @@ namespace keystrokes_overlay
             for (int i = 0; i < clb.Items.Count; i++)
             {
                 clb.SetItemChecked(i, enable);
-                string key = clb.Items[i].ToString();
-
+                string? key = clb.Items[i] as string;
+                if (key == null) return; // nic nie robimy jeśli null
                 if (enable) allowedKeys.Add(key);
                 else allowedKeys.Remove(key);
             }
@@ -317,12 +310,13 @@ namespace keystrokes_overlay
         {
             for (int i = 0; i < clb.Items.Count; i++)
             {
-                string key = clb.Items[i].ToString();
+                string? key = clb.Items[i] as string;
+                if (key == null) return; // nic nie robimy jeśli null
                 clb.SetItemChecked(i, allowedKeys.Contains(key));
             }
         }
 
-        private void BtnStart_Click(object sender, EventArgs e)
+        private void BtnStart_Click(object? sender, EventArgs e)
         {
             var selectedKeys = new HashSet<string>(allowedKeys);
 
