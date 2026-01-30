@@ -29,8 +29,12 @@ namespace keystrokes_overlay
                 {
                     if (e.Button == MouseButtons.Left)
                     {
-                        ReleaseCapture();
-                        SendMessage(this.FindForm().Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+                        var form = this.FindForm();
+                        if (form != null)
+                        {
+                            ReleaseCapture();
+                            SendMessage(form.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+                        }
                     }
                 };
             }
