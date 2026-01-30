@@ -389,7 +389,7 @@ namespace keystrokes_overlay
             };
 
             foreach (var item in items)
-                clb.Items.Add(item, true);
+                clb.Items.Add(item, false);
 
             clb.ItemCheck += (s, e) =>
             {
