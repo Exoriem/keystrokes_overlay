@@ -36,10 +36,12 @@
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(518, 575);
+            ClientSize = new Size(510, 515);
             ForeColor = SystemColors.Control;
+            FormBorderStyle = FormBorderStyle.None;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Keystrokes Overlay";
             ResumeLayout(false);
         }

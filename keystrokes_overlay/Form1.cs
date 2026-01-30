@@ -132,8 +132,8 @@ namespace keystrokes_overlay
 
             chkTopMost = new CheckBox
             {
-                Text = "Overlay on top of applications",
-                Location = new Point(10, 375),
+                Text = "Overlay over applications",
+                Location = new Point(10, 445),
                 AutoSize = true
             };
             Controls.Add(chkTopMost);
@@ -166,7 +166,7 @@ namespace keystrokes_overlay
                 Text = "Numbers",
                 ForeColor = Color.White,
                 Location = new Point(180, 40),
-                Size = new Size(120, 300)
+                Size = new Size(150, 300)
             };
 
             clbNumbers = CreateCheckedListBox(Numbers);
@@ -177,7 +177,7 @@ namespace keystrokes_overlay
             {
                 Text = "Toggle",
                 Location = new Point(180, 345),
-                Size = new Size(120, 25)
+                Size = new Size(150, 25)
             };
             btnToggleNumbers.Click += (s, e) => ToggleGroup(clbNumbers);
             Controls.Add(btnToggleNumbers);
@@ -187,8 +187,8 @@ namespace keystrokes_overlay
             {
                 Text = "Special Keys",
                 ForeColor = Color.White,
-                Location = new Point(320, 40),
-                Size = new Size(170, 300)
+                Location = new Point(350, 40),
+                Size = new Size(150, 300)
             };
 
             clbSpecial = CreateCheckedListBox(SpecialKeys);
@@ -198,8 +198,8 @@ namespace keystrokes_overlay
             btnToggleSpecial = new Button
             {
                 Text = "Toggle",
-                Location = new Point(320, 345),
-                Size = new Size(170, 25)
+                Location = new Point(350, 345),
+                Size = new Size(150, 25)
             };
             btnToggleSpecial.Click += (s, e) => ToggleGroup(clbSpecial);
             Controls.Add(btnToggleSpecial);
@@ -207,50 +207,56 @@ namespace keystrokes_overlay
             // ===== START =====
             btnStart = new Button
             {
-                Text = "Start Overlay",
-                Location = new Point(10, 400),
-                Size = new Size(200, 35)
+                Text = "Save and Start Overlay",
+                Location = new Point(10, 470),
+                Size = new Size(490, 35)
             };
             btnStart.Click += BtnStart_Click;
             Controls.Add(btnStart);
             // ===== NOWE KONFIGURACJE OVERLAY =====
-            Label lblTextColor = new Label { Text = "Text Color:", Location = new Point(10, 440), AutoSize = true };
+            Label lblTextColor = new Label { Text = "Text Color:", Location = new Point(10, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblTextColor);
 
-            btnTextColor = new Button { Text = "Pick", Location = new Point(80, 435), Size = new Size(80, 25) };
+            btnTextColor = new Button { Location = new Point(75, 380), Size = new Size(25, 25) };
             btnTextColor.Click += (s, e) => PickColor(c => btnTextColor.BackColor = c);
+            btnTextColor.FlatStyle = FlatStyle.Flat;
+            btnTextColor.FlatAppearance.BorderColor = Color.White; // kolor obwódki
             Controls.Add(btnTextColor);
 
-            Label lblArrowColor = new Label { Text = "Arrow Color:", Location = new Point(180, 440), AutoSize = true };
+            Label lblArrowColor = new Label { Text = "Arrow Color:", Location = new Point(110, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblArrowColor);
 
-            btnArrowColor = new Button { Text = "Pick", Location = new Point(260, 435), Size = new Size(80, 25) };
+            btnArrowColor = new Button { Location = new Point(185, 380), Size = new Size(25, 25) };
             btnArrowColor.Click += (s, e) => PickColor(c => btnArrowColor.BackColor = c);
+            btnArrowColor.FlatStyle = FlatStyle.Flat;
+            btnArrowColor.FlatAppearance.BorderColor = Color.White; // kolor obwódki
             Controls.Add(btnArrowColor);
 
-            Label lblOutlineColor = new Label { Text = "Outline Color:", Location = new Point(360, 440), AutoSize = true };
+            Label lblOutlineColor = new Label { Text = "Outline Color:", Location = new Point(220, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblOutlineColor);
 
-            btnOutlineColor = new Button { Text = "Pick", Location = new Point(450, 435), Size = new Size(60, 25) };
+            btnOutlineColor = new Button { Location = new Point(300, 380), Size = new Size(25, 25) };
             btnOutlineColor.Click += (s, e) => PickColor(c => btnOutlineColor.BackColor = c);
+            btnOutlineColor.FlatStyle = FlatStyle.Flat;
+            btnOutlineColor.FlatAppearance.BorderColor = Color.White; // kolor obwódki
             Controls.Add(btnOutlineColor);
 
-            Label lblOutlineThickness = new Label { Text = "Outline Thickness:", Location = new Point(10, 470), AutoSize = true };
+            Label lblOutlineThickness = new Label { Text = "Outline Thickness:", Location = new Point(335, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblOutlineThickness);
 
-            nudOutlineThickness = new NumericUpDown { Location = new Point(130, 465), Size = new Size(60, 25), Minimum = 0, Maximum = 2, Value = 0 };
+            nudOutlineThickness = new NumericUpDown { Location = new Point(440, 381), Size = new Size(58, 25), Minimum = 0, Maximum = 2, Value = 0 };
             Controls.Add(nudOutlineThickness);
 
-            Label lblDurationTime = new Label { Text = "Duration Time:", Location = new Point(10, 500), AutoSize = true };
+            Label lblDurationTime = new Label { Text = "Duration Time:", Location = new Point(10, 420), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblDurationTime);
 
-            nudDurationTime = new NumericUpDown { Location = new Point(130, 495), Size = new Size(60, 25), Minimum = 0, Maximum = 5000, Value = 500 };
+            nudDurationTime = new NumericUpDown { Location = new Point(100, 415), Size = new Size(60, 25), Minimum = 0, Maximum = 5000, Value = 500 };
             Controls.Add(nudDurationTime);
 
-            Label lblFadeoutTime = new Label { Text = "Fade Out Time:", Location = new Point(10, 530), AutoSize = true };
+            Label lblFadeoutTime = new Label { Text = "Fade Out Time:", Location = new Point(170, 420), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblFadeoutTime);
 
-            nudFadeoutTime = new NumericUpDown { Location = new Point(130, 525), Size = new Size(60, 25), Minimum = 0, Maximum = 5000, Value = 500 };
+            nudFadeoutTime = new NumericUpDown { Location = new Point(260, 415), Size = new Size(60, 25), Minimum = 0, Maximum = 5000, Value = 500 };
             Controls.Add(nudFadeoutTime);
 
         }
