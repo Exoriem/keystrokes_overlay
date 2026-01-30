@@ -5,11 +5,20 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using static System.Windows.Forms.LinkLabel;
+using System.Runtime.InteropServices;
 
 namespace keystrokes_overlay
 {
     public partial class Form1 : Form
     {
+        // Importy do przesuwania okna
+        [DllImport("user32.dll")]
+        public static extern bool ReleaseCapture();
+        [DllImport("user32.dll")]
+        public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+        public const int WM_NCLBUTTONDOWN = 0xA1;
+        public const int HTCAPTION = 0x2;
+
         private CheckBox chkTopMost = null!;
         private Button btnStart = null!;
 
@@ -58,12 +67,55 @@ namespace keystrokes_overlay
         public Form1()
         {
             InitializeComponent();
+            // przesuwanie klikając formę w dowolnym miejscu
+            this.MouseDown += (s, e) =>
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    ReleaseCapture();
+                    SendMessage(this.Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+                }
+            };
             InitUI();
             LoadSettings();
         }
 
         private void InitUI()
         {
+            Button btnClose = new Button
+            {
+                Text = "X",
+                Size = new Size(20, 20),
+                Location = new Point(this.Width - 20, -5),
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI", 7, FontStyle.Bold), // zmiana fontu i rozmiaru
+                ForeColor = Color.White,
+                Cursor = Cursors.Hand
+            };
+            // Hover
+            btnClose.MouseEnter += (s, e) => btnClose.BackColor = Color.FromArgb(255, 155, 0, 0); // czerwone po najechaniu
+            btnClose.MouseLeave += (s, e) => btnClose.BackColor = Color.Transparent; // normalnie przezroczysty
+            btnClose.FlatAppearance.BorderSize = 0;
+            btnClose.Click += (s, e) => this.Close();
+            this.Controls.Add(btnClose);
+
+            Button btnMinimize = new Button
+            {
+                Text = "–",
+                Size = new Size(20, 20),
+                Location = new Point(this.Width - 40, -5),
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI", 7, FontStyle.Bold), // zmiana fontu i rozmiaru
+                ForeColor = Color.White,
+                Cursor = Cursors.Hand
+            };
+            // Hover
+            btnMinimize.MouseEnter += (s, e) => btnMinimize.BackColor = Color.FromArgb(255, 55, 55, 55); // czerwone po najechaniu
+            btnMinimize.MouseLeave += (s, e) => btnMinimize.BackColor = Color.Transparent; // normalnie przezroczysty
+            btnMinimize.FlatAppearance.BorderSize = 0;
+            btnMinimize.Click += (s, e) => this.WindowState = FormWindowState.Minimized;
+            this.Controls.Add(btnMinimize);
+
             Label textTitle = new Label
             {
                 Text = "Keystrokes Overlay",
@@ -153,10 +205,19 @@ namespace keystrokes_overlay
 
             btnToggleLetters = new Button
             {
-                Text = "Toggle",
+                Text = "Toggle Letters",
                 Location = new Point(10, 345),
-                Size = new Size(150, 25)
+                Size = new Size(150, 30),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.FromArgb(25, 25, 25), // ciemnoszary
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
+                Cursor = Cursors.Hand
             };
+            // Efekt hover
+            btnToggleLetters.MouseEnter += (s, e) => btnToggleLetters.BackColor = Color.FromArgb(70, 70, 70);
+            btnToggleLetters.MouseLeave += (s, e) => btnToggleLetters.BackColor = Color.FromArgb(25, 25, 25);
+
             btnToggleLetters.Click += (s, e) => ToggleGroup(clbLetters);
             Controls.Add(btnToggleLetters);
 
@@ -175,10 +236,18 @@ namespace keystrokes_overlay
 
             btnToggleNumbers = new Button
             {
-                Text = "Toggle",
+                Text = "Toggle Numbers",
                 Location = new Point(180, 345),
-                Size = new Size(150, 25)
+                Size = new Size(150, 30),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.FromArgb(25, 25, 25), // ciemnoszary
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
+                Cursor = Cursors.Hand
             };
+            // Efekt hover
+            btnToggleNumbers.MouseEnter += (s, e) => btnToggleNumbers.BackColor = Color.FromArgb(70, 70, 70);
+            btnToggleNumbers.MouseLeave += (s, e) => btnToggleNumbers.BackColor = Color.FromArgb(25, 25, 25);
             btnToggleNumbers.Click += (s, e) => ToggleGroup(clbNumbers);
             Controls.Add(btnToggleNumbers);
 
@@ -197,10 +266,19 @@ namespace keystrokes_overlay
 
             btnToggleSpecial = new Button
             {
-                Text = "Toggle",
+                Text = "Toggle Specialkeys",
                 Location = new Point(350, 345),
-                Size = new Size(150, 25)
+                Size = new Size(150, 30),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.FromArgb(25, 25, 25), // ciemnoszary
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
+                Cursor = Cursors.Hand
             };
+            // Efekt hover
+            btnToggleSpecial.MouseEnter += (s, e) => btnToggleSpecial.BackColor = Color.FromArgb(70, 70, 70);
+            btnToggleSpecial.MouseLeave += (s, e) => btnToggleSpecial.BackColor = Color.FromArgb(25, 25, 25);
+
             btnToggleSpecial.Click += (s, e) => ToggleGroup(clbSpecial);
             Controls.Add(btnToggleSpecial);
 
