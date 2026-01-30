@@ -10,7 +10,6 @@ namespace keystrokes_overlay
 {
     public class OverlayForm : Form
     {
-        // Kolory i grubość obwódkiNumericUpDown
         public Color TextColor;
         public Color OutlineColor;
         public Color ArrowColor;
@@ -248,7 +247,7 @@ namespace keystrokes_overlay
                 using Brush outline = new SolidBrush(Color.FromArgb(a, OutlineColor));
                 using Brush arrowBrush = new SolidBrush(Color.FromArgb(a, ArrowColor));
 
-                // rysowanie obwódki
+                // draw outline 
                 for (int dx = -OutlineThickness; dx <= OutlineThickness; dx++)
                     for (int dy = -OutlineThickness; dy <= OutlineThickness; dy++)
                     {
@@ -257,7 +256,7 @@ namespace keystrokes_overlay
                         e.Graphics.DrawString(arrow, font, outline, arrowPos.X + dx, arrowPos.Y + dy, sf);
                     }
 
-                // rysowanie tekstu i strzałki
+                // draw text and arrow
                 e.Graphics.DrawString(item.Text, font, textBrush, textPos, sf);
                 e.Graphics.DrawString(arrow, font, arrowBrush, arrowPos, sf);
             }

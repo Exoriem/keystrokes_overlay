@@ -15,7 +15,6 @@ namespace keystrokes_overlay
     {
         public class DraggableLabel : Label
         {
-            // Importy z WinAPI do przesuwania okna
             [DllImport("user32.dll")]
             public static extern bool ReleaseCapture();
             [DllImport("user32.dll")]
@@ -49,11 +48,8 @@ namespace keystrokes_overlay
                     Value = Math.Min(Maximum, Value + step);
                 else
                     Value = Math.Max(Minimum, Value - step);
-
-                // NIE wywołujemy base.OnMouseWheel(e);
             }
         }
-        // Importy do przesuwania okna
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
         [DllImport("user32.dll")]
@@ -113,7 +109,7 @@ namespace keystrokes_overlay
         public Form1()
         {
             InitializeComponent();
-            // przesuwanie klikając formę w dowolnym miejscu
+            // move form by clicking anywhere
             this.MouseDown += (s, e) =>
             {
                 if (e.Button == MouseButtons.Left)
@@ -134,13 +130,13 @@ namespace keystrokes_overlay
                 Size = new Size(20, 19),
                 Location = new Point(this.Width - 20, -4),
                 FlatStyle = FlatStyle.Flat,
-                Font = new Font("Segoe UI", 7, FontStyle.Bold), // zmiana fontu i rozmiaru
+                Font = new Font("Segoe UI", 7, FontStyle.Bold),
                 ForeColor = Color.White,
                 Cursor = Cursors.Hand
             };
             // Hover
-            btnClose.MouseEnter += (s, e) => btnClose.BackColor = Color.FromArgb(255, 155, 0, 0); // czerwone po najechaniu
-            btnClose.MouseLeave += (s, e) => btnClose.BackColor = Color.Transparent; // normalnie przezroczysty
+            btnClose.MouseEnter += (s, e) => btnClose.BackColor = Color.FromArgb(255, 155, 0, 0);
+            btnClose.MouseLeave += (s, e) => btnClose.BackColor = Color.Transparent;
             btnClose.FlatAppearance.BorderSize = 0;
             btnClose.Click += (s, e) => this.Close();
             this.Controls.Add(btnClose);
@@ -151,13 +147,13 @@ namespace keystrokes_overlay
                 Size = new Size(20, 19),
                 Location = new Point(this.Width - 40, -4),
                 FlatStyle = FlatStyle.Flat,
-                Font = new Font("Segoe UI", 7, FontStyle.Bold), // zmiana fontu i rozmiaru
+                Font = new Font("Segoe UI", 7, FontStyle.Bold),
                 ForeColor = Color.White,
                 Cursor = Cursors.Hand
             };
             // Hover
-            btnMinimize.MouseEnter += (s, e) => btnMinimize.BackColor = Color.FromArgb(255, 55, 55, 55); // czerwone po najechaniu
-            btnMinimize.MouseLeave += (s, e) => btnMinimize.BackColor = Color.Transparent; // normalnie przezroczysty
+            btnMinimize.MouseEnter += (s, e) => btnMinimize.BackColor = Color.FromArgb(255, 55, 55, 55);
+            btnMinimize.MouseLeave += (s, e) => btnMinimize.BackColor = Color.Transparent;
             btnMinimize.FlatAppearance.BorderSize = 0;
             btnMinimize.Click += (s, e) => this.WindowState = FormWindowState.Minimized;
             this.Controls.Add(btnMinimize);
@@ -168,20 +164,20 @@ namespace keystrokes_overlay
                 Size = new Size(20, 19),
                 Location = new Point(this.Width - 60, -4),
                 FlatStyle = FlatStyle.Flat,
-                Font = new Font("Segoe UI", 8, FontStyle.Regular), // zmiana fontu i rozmiaru
+                Font = new Font("Segoe UI", 8, FontStyle.Regular), 
                 ForeColor = Color.White,
                 Cursor = Cursors.Help
             };
             // Hover
-            infoTooltip.MouseEnter += (s, e) => infoTooltip.BackColor = Color.FromArgb(255, 55, 55, 55); // czerwone po najechaniu
-            infoTooltip.MouseLeave += (s, e) => infoTooltip.BackColor = Color.Transparent; // normalnie przezroczysty
+            infoTooltip.MouseEnter += (s, e) => infoTooltip.BackColor = Color.FromArgb(255, 55, 55, 55);
+            infoTooltip.MouseLeave += (s, e) => infoTooltip.BackColor = Color.Transparent; 
             infoTooltip.FlatAppearance.BorderSize = 0;
             ToolTip tt = new ToolTip
             {
-                InitialDelay = 0,      // czas przed pokazaniem po najechaniu
+                InitialDelay = 0,    
                 ShowAlways = true
-            };
-            tt.SetToolTip(infoTooltip, "Ustawienia są zapisywane lokalnie.\nPo przeniesieniu programu zostanie utworzona nowa konfiguracja.\nNie przenoś aplikacji po ustawieniu opcji.");
+            }; 
+            tt.SetToolTip(infoTooltip, "Settings are saved locally in AppData.\nEach folder has its own settings.\nDon't move the EXE file, or settings will reset.");
 
             this.Controls.Add(infoTooltip);
 
@@ -190,7 +186,7 @@ namespace keystrokes_overlay
                 Text = "Keystrokes Overlay",
                 Location = new Point(5, 5),
                 AutoSize = true,
-                Font = new Font("Segoe UI", 16, FontStyle.Bold), // zmiana fontu i rozmiaru
+                Font = new Font("Segoe UI", 16, FontStyle.Bold),
                 ForeColor = Color.FromArgb(255, 200, 200, 200)
             };
             Controls.Add(textTitle);
@@ -199,7 +195,7 @@ namespace keystrokes_overlay
                 Text = "v0.1",
                 Location = new Point(215, 18),
                 AutoSize = true,
-                Font = new Font("Segoe UI", 8, FontStyle.Bold), // zmiana fontu i rozmiaru
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
                 ForeColor = Color.FromArgb(255, 155, 155, 155)
             };
             Controls.Add(textVersion);
@@ -208,13 +204,13 @@ namespace keystrokes_overlay
                 Text = "Developed by Exoriem",
                 Location = new Point(245, 18),
                 AutoSize = true,
-                Font = new Font("Segoe UI", 8, FontStyle.Bold), // zmiana fontu i rozmiaru
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
                 ForeColor = Color.FromArgb(255, 155, 155, 155)
             };
             textDevelopedby.LinkBehavior = LinkBehavior.NeverUnderline;
             textDevelopedby.LinkColor = Color.FromArgb(255, 142, 150, 199);
-            textDevelopedby.MouseEnter += (s, e) => textDevelopedby.LinkColor = Color.FromArgb(255, 30, 152, 255); // kolor na hover
-            textDevelopedby.MouseLeave += (s, e) => textDevelopedby.LinkColor = Color.FromArgb(255, 142, 150, 199);   // przywrócenie koloru normalnego
+            textDevelopedby.MouseEnter += (s, e) => textDevelopedby.LinkColor = Color.FromArgb(255, 30, 152, 255);
+            textDevelopedby.MouseLeave += (s, e) => textDevelopedby.LinkColor = Color.FromArgb(255, 142, 150, 199); 
             textDevelopedby.LinkClicked += (s, e) => Process.Start(new ProcessStartInfo("https://github.com/Exoriem") { UseShellExecute = true });
             Controls.Add(textDevelopedby);
 
@@ -223,22 +219,22 @@ namespace keystrokes_overlay
                 Text = "Buy Me a Coffee!",
                 Location = new Point(400, 18),
                 AutoSize = true,
-                Font = new Font("Segoe UI", 8, FontStyle.Bold), // zmiana fontu i rozmiaru
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
                 ForeColor = Color.FromArgb(255, 155, 155, 155)
             };
 
             PictureBox pb = new PictureBox
             {
-                Image = Properties.Resources.coffee2, // <-- obrazek z resources
+                Image = Properties.Resources.coffee2,
                 SizeMode = PictureBoxSizeMode.Zoom,
                 Location = new Point(376, 14),
                 Size = new Size(22, 22),
                 Cursor = Cursors.Hand
             };
-            pb.MouseEnter += (s, e) => { pb.Image = Properties.Resources.coffee; textTitle3.LinkColor = Color.FromArgb(255, 30, 152, 255); }; // kolor na hover
-            pb.MouseLeave += (s, e) => { pb.Image = Properties.Resources.coffee2; textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199); };  // przywrócenie koloru normalnego
-            textTitle3.MouseEnter += (s, e) => pb.Image = Properties.Resources.coffee; // kolor na hover
-            textTitle3.MouseLeave += (s, e) => pb.Image = Properties.Resources.coffee2;   // przywrócenie koloru normalnego
+            pb.MouseEnter += (s, e) => { pb.Image = Properties.Resources.coffee; textTitle3.LinkColor = Color.FromArgb(255, 30, 152, 255); };
+            pb.MouseLeave += (s, e) => { pb.Image = Properties.Resources.coffee2; textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199); }; 
+            textTitle3.MouseEnter += (s, e) => pb.Image = Properties.Resources.coffee; 
+            textTitle3.MouseLeave += (s, e) => pb.Image = Properties.Resources.coffee2; 
 
             pb.Click += (s, e) => Process.Start(new ProcessStartInfo("https://buymeacoffee.com/exoriem") { UseShellExecute = true });
 
@@ -246,8 +242,8 @@ namespace keystrokes_overlay
 
             textTitle3.LinkBehavior = LinkBehavior.NeverUnderline;
             textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199);
-            textTitle3.MouseEnter += (s, e) => textTitle3.LinkColor = Color.FromArgb(255, 30, 152, 255); // kolor na hover
-            textTitle3.MouseLeave += (s, e) => textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199);   // przywrócenie koloru normalnego
+            textTitle3.MouseEnter += (s, e) => textTitle3.LinkColor = Color.FromArgb(255, 30, 152, 255);
+            textTitle3.MouseLeave += (s, e) => textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199);
             textTitle3.LinkClicked += (s, e) => Process.Start(new ProcessStartInfo("https://buymeacoffee.com/exoriem") { UseShellExecute = true });
             Controls.Add(textTitle3);
 
@@ -255,7 +251,7 @@ namespace keystrokes_overlay
             {
                 Text = "Overlay over applications",
                 Location = new Point(10, 445),
-                Font = new Font("Segoe UI", 8, FontStyle.Bold), // zmiana fontu i rozmiaru
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
                 AutoSize = true,
                 Cursor = Cursors.Hand
              };
@@ -281,11 +277,11 @@ namespace keystrokes_overlay
                 Location = new Point(10, 345),
                 Size = new Size(150, 30),
                 FlatStyle = FlatStyle.Flat,
-                BackColor = Color.FromArgb(25, 25, 25), // ciemnoszary
+                BackColor = Color.FromArgb(25, 25, 25),
                 ForeColor = Color.White,
                 Font = new Font("Segoe UI", 8, FontStyle.Bold)
             };
-            // Efekt hover
+            //  hover
             btnToggleLetters.MouseEnter += (s, e) => btnToggleLetters.BackColor = Color.FromArgb(70, 70, 70);
             btnToggleLetters.MouseLeave += (s, e) => btnToggleLetters.BackColor = Color.FromArgb(25, 25, 25);
 
@@ -364,7 +360,7 @@ namespace keystrokes_overlay
                 Location = new Point(350, 345),
                 Size = new Size(150, 30),
                 FlatStyle = FlatStyle.Flat,
-                BackColor = Color.FromArgb(25, 25, 25), // ciemnoszary
+                BackColor = Color.FromArgb(25, 25, 25),
                 ForeColor = Color.White,
                 Font = new Font("Segoe UI", 8, FontStyle.Bold),
                 Cursor = Cursors.Hand
@@ -383,7 +379,7 @@ namespace keystrokes_overlay
                 Location = new Point(10, 470),
                 Size = new Size(490, 35),
                 FlatStyle = FlatStyle.Flat,
-                BackColor = Color.FromArgb(25, 25, 25), // ciemnoszary
+                BackColor = Color.FromArgb(25, 25, 25),
                 ForeColor = Color.White,
                 Font = new Font("Segoe UI", 8, FontStyle.Bold),
                 Cursor = Cursors.Hand
@@ -393,14 +389,14 @@ namespace keystrokes_overlay
             btnStart.MouseLeave += (s, e) => btnStart.BackColor = Color.FromArgb(25, 25, 25);
             btnStart.Click += BtnStart_Click;
             Controls.Add(btnStart);
-            // ===== NOWE KONFIGURACJE OVERLAY =====
+            // ===== OVERLAY =====
             DraggableLabel lblTextColor = new DraggableLabel { Text = "Text Color:", Location = new Point(10, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblTextColor);
 
             btnTextColor = new Button { Location = new Point(75, 380), Size = new Size(25, 25), Cursor = Cursors.Hand };
             btnTextColor.Click += (s, e) => PickColor(c => btnTextColor.BackColor = c);
             btnTextColor.FlatStyle = FlatStyle.Flat;
-            btnTextColor.FlatAppearance.BorderColor = Color.White; // kolor obwódki
+            btnTextColor.FlatAppearance.BorderColor = Color.White;
             Controls.Add(btnTextColor);
 
             DraggableLabel lblArrowColor = new DraggableLabel { Text = "Arrow Color:", Location = new Point(110, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
@@ -409,7 +405,7 @@ namespace keystrokes_overlay
             btnArrowColor = new Button { Location = new Point(185, 380), Size = new Size(25, 25), Cursor = Cursors.Hand };
             btnArrowColor.Click += (s, e) => PickColor(c => btnArrowColor.BackColor = c);
             btnArrowColor.FlatStyle = FlatStyle.Flat;
-            btnArrowColor.FlatAppearance.BorderColor = Color.White; // kolor obwódki
+            btnArrowColor.FlatAppearance.BorderColor = Color.White;
             Controls.Add(btnArrowColor);
 
             DraggableLabel lblOutlineColor = new DraggableLabel { Text = "Outline Color:", Location = new Point(220, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
@@ -418,7 +414,7 @@ namespace keystrokes_overlay
             btnOutlineColor = new Button { Location = new Point(300, 380), Size = new Size(25, 25), Cursor = Cursors.Hand };
             btnOutlineColor.Click += (s, e) => PickColor(c => btnOutlineColor.BackColor = c);
             btnOutlineColor.FlatStyle = FlatStyle.Flat;
-            btnOutlineColor.FlatAppearance.BorderColor = Color.White; // kolor obwódki
+            btnOutlineColor.FlatAppearance.BorderColor = Color.White;
             Controls.Add(btnOutlineColor);
 
             DraggableLabel lblOutlineThickness = new DraggableLabel { Text = "Outline Thickness:", Location = new Point(335, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
@@ -455,7 +451,7 @@ namespace keystrokes_overlay
             clb.ItemCheck += (s, e) =>
             {
                 string? key = clb.Items[e.Index] as string;
-                if (key == null) return; // nic nie robimy jeśli null
+                if (key == null) return;
                 if (e.NewValue == CheckState.Checked)
                     allowedKeys.Add(key);
                 else
@@ -468,7 +464,7 @@ namespace keystrokes_overlay
         {
             using ColorDialog dlg = new ColorDialog
             {
-                FullOpen = true // umożliwia gradient i pełną paletę
+                FullOpen = true 
             };
             if (dlg.ShowDialog() == DialogResult.OK)
                 callback(dlg.Color);
@@ -482,7 +478,7 @@ namespace keystrokes_overlay
             {
                 clb.SetItemChecked(i, enable);
                 string? key = clb.Items[i] as string;
-                if (key == null) return; // nic nie robimy jeśli null
+                if (key == null) return; 
                 if (enable) allowedKeys.Add(key);
                 else allowedKeys.Remove(key);
             }
@@ -513,7 +509,7 @@ namespace keystrokes_overlay
             for (int i = 0; i < clb.Items.Count; i++)
             {
                 string? key = clb.Items[i] as string;
-                if (key == null) return; // nic nie robimy jeśli null
+                if (key == null) return;
                 clb.SetItemChecked(i, allowedKeys.Contains(key));
             }
         }
