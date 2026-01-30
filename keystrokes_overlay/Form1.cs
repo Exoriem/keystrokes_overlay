@@ -102,11 +102,11 @@ namespace keystrokes_overlay
         {
             "LMB","RMB","MMB","XMB1","XMB2", //mouse
             "Up","Down","Left","Right",  //arrows
-            "Lctrl","Rctrl","Lshift","Rshift","Lalt","Ralt", //alt ,ctrl, shift
-            "Backspace","Enter","Esc","Tab","Space",
-            "Scroll","Pause","PrintScreen", "Insert","Delete","Home","End","PageUp","PageDown", //keys abouve arrows
-            "+","-","Divide","OemPeriod", "Oemcomma","Oem6", "Oem4", // +, -, /, ., ,, ],[
-            "OemSemicolon", "OemQuotes", "OemPeriod", // ;, ', ., /
+            "Lctrl","Rctrl","Lshift","Rshift","Lalt","Ralt","LWin", //alt ,ctrl, shift
+            "Backspace","Enter","Esc","Tab","Space", "Capital", "NumLock",
+            "Scroll","Pause","PrintScreen", "Insert","Delete","Home","End","PageUp","Next", //keys abouve arrows
+            "+","-","Divide", "Oemplus","OemPeriod", "Oemcomma","Oem6", "Oem4", "Subtract", "Decimal", "Clear", // +, -, /, =, ., ,, ],[, -, ,
+            "OemSemicolon", "OemQuotes", "OemPeriod","Oemtilde", "OemPipe", "Apps",// ;, ', ., /, `. \
             "F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12"
         };
 
