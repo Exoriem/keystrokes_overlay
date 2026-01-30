@@ -492,7 +492,7 @@ namespace keystrokes_overlay
         {
             if (!string.IsNullOrEmpty(Properties.Settings.Default.AllowedKeys))
             {
-                allowedKeys = Properties.Settings.Default.AllowedKeys.Split(',').ToHashSet();
+                allowedKeys = Properties.Settings.Default.AllowedKeys.Split('|').ToHashSet();
 
                 RestoreCheckedState(clbLetters);
                 RestoreCheckedState(clbNumbers);
@@ -533,7 +533,7 @@ namespace keystrokes_overlay
             };
             overlay.Show();
 
-            Properties.Settings.Default.AllowedKeys = string.Join(",", selectedKeys);
+            Properties.Settings.Default.AllowedKeys = string.Join("|", selectedKeys);
             Properties.Settings.Default.btnArrowColor = btnArrowColor.BackColor;
             Properties.Settings.Default.btnTextColor = btnTextColor.BackColor;
             Properties.Settings.Default.btnOutlineColor = btnOutlineColor.BackColor;
