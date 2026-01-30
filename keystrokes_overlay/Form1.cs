@@ -9,8 +9,32 @@ using System.Runtime.InteropServices;
 
 namespace keystrokes_overlay
 {
+    
+
     public partial class Form1 : Form
     {
+        public class DraggableLabel : Label
+        {
+            // Importy z WinAPI do przesuwania okna
+            [DllImport("user32.dll")]
+            public static extern bool ReleaseCapture();
+            [DllImport("user32.dll")]
+            public static extern IntPtr SendMessage(IntPtr hWnd, int Msg, int wParam, int lParam);
+            public const int WM_NCLBUTTONDOWN = 0xA1;
+            public const int HTCAPTION = 0x2;
+
+            public DraggableLabel()
+            {
+                this.MouseDown += (s, e) =>
+                {
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        ReleaseCapture();
+                        SendMessage(this.FindForm().Handle, WM_NCLBUTTONDOWN, HTCAPTION, 0);
+                    }
+                };
+            }
+        }
         // Importy do przesuwania okna
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
@@ -116,7 +140,7 @@ namespace keystrokes_overlay
             btnMinimize.Click += (s, e) => this.WindowState = FormWindowState.Minimized;
             this.Controls.Add(btnMinimize);
 
-            Label textTitle = new Label
+            DraggableLabel textTitle = new DraggableLabel
             {
                 Text = "Keystrokes Overlay",
                 Location = new Point(5, 5),
@@ -125,7 +149,7 @@ namespace keystrokes_overlay
                 ForeColor = Color.FromArgb(255, 200, 200, 200)
             };
             Controls.Add(textTitle);
-            Label textVersion = new Label
+            DraggableLabel textVersion = new DraggableLabel
             {
                 Text = "v0.1",
                 Location = new Point(215, 18),
@@ -301,7 +325,7 @@ namespace keystrokes_overlay
             btnStart.Click += BtnStart_Click;
             Controls.Add(btnStart);
             // ===== NOWE KONFIGURACJE OVERLAY =====
-            Label lblTextColor = new Label { Text = "Text Color:", Location = new Point(10, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
+            DraggableLabel lblTextColor = new DraggableLabel { Text = "Text Color:", Location = new Point(10, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblTextColor);
 
             btnTextColor = new Button { Location = new Point(75, 380), Size = new Size(25, 25) };
@@ -310,7 +334,7 @@ namespace keystrokes_overlay
             btnTextColor.FlatAppearance.BorderColor = Color.White; // kolor obwódki
             Controls.Add(btnTextColor);
 
-            Label lblArrowColor = new Label { Text = "Arrow Color:", Location = new Point(110, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
+            DraggableLabel lblArrowColor = new DraggableLabel { Text = "Arrow Color:", Location = new Point(110, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblArrowColor);
 
             btnArrowColor = new Button { Location = new Point(185, 380), Size = new Size(25, 25) };
@@ -319,7 +343,7 @@ namespace keystrokes_overlay
             btnArrowColor.FlatAppearance.BorderColor = Color.White; // kolor obwódki
             Controls.Add(btnArrowColor);
 
-            Label lblOutlineColor = new Label { Text = "Outline Color:", Location = new Point(220, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
+            DraggableLabel lblOutlineColor = new DraggableLabel { Text = "Outline Color:", Location = new Point(220, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblOutlineColor);
 
             btnOutlineColor = new Button { Location = new Point(300, 380), Size = new Size(25, 25) };
@@ -328,19 +352,19 @@ namespace keystrokes_overlay
             btnOutlineColor.FlatAppearance.BorderColor = Color.White; // kolor obwódki
             Controls.Add(btnOutlineColor);
 
-            Label lblOutlineThickness = new Label { Text = "Outline Thickness:", Location = new Point(335, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
+            DraggableLabel lblOutlineThickness = new DraggableLabel { Text = "Outline Thickness:", Location = new Point(335, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblOutlineThickness);
 
             nudOutlineThickness = new NumericUpDown { Location = new Point(440, 381), Size = new Size(58, 25), Minimum = 0, Maximum = 2, Value = 0 };
             Controls.Add(nudOutlineThickness);
 
-            Label lblDurationTime = new Label { Text = "Duration Time:", Location = new Point(10, 420), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
+            DraggableLabel lblDurationTime = new DraggableLabel { Text = "Duration Time:", Location = new Point(10, 420), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblDurationTime);
 
             nudDurationTime = new NumericUpDown { Location = new Point(100, 415), Size = new Size(60, 25), Minimum = 0, Maximum = 5000, Value = 500 };
             Controls.Add(nudDurationTime);
 
-            Label lblFadeoutTime = new Label { Text = "Fade Out Time:", Location = new Point(170, 420), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
+            DraggableLabel lblFadeoutTime = new DraggableLabel { Text = "Fade Out Time:", Location = new Point(170, 420), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblFadeoutTime);
 
             nudFadeoutTime = new NumericUpDown { Location = new Point(260, 415), Size = new Size(60, 25), Minimum = 0, Maximum = 5000, Value = 500 };
