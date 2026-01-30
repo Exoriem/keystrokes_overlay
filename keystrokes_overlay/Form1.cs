@@ -186,6 +186,7 @@ namespace keystrokes_overlay
             {
                 Text = "Overlay over applications",
                 Location = new Point(10, 445),
+                Font = new Font("Segoe UI", 8, FontStyle.Bold), // zmiana fontu i rozmiaru
                 AutoSize = true
             };
             Controls.Add(chkTopMost);
@@ -287,8 +288,16 @@ namespace keystrokes_overlay
             {
                 Text = "Save and Start Overlay",
                 Location = new Point(10, 470),
-                Size = new Size(490, 35)
+                Size = new Size(490, 35),
+                FlatStyle = FlatStyle.Flat,
+                BackColor = Color.FromArgb(25, 25, 25), // ciemnoszary
+                ForeColor = Color.White,
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
+                Cursor = Cursors.Hand
             };
+            // Efekt hover
+            btnStart.MouseEnter += (s, e) => btnStart.BackColor = Color.FromArgb(70, 70, 70);
+            btnStart.MouseLeave += (s, e) => btnStart.BackColor = Color.FromArgb(25, 25, 25);
             btnStart.Click += BtnStart_Click;
             Controls.Add(btnStart);
             // ===== NOWE KONFIGURACJE OVERLAY =====
