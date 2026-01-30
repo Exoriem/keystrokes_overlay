@@ -39,6 +39,20 @@ namespace keystrokes_overlay
                 };
             }
         }
+        class WheelNumericUpDown : NumericUpDown
+        {
+            protected override void OnMouseWheel(MouseEventArgs e)
+            {
+                decimal step = this.Increment;
+
+                if (e.Delta > 0)
+                    Value = Math.Min(Maximum, Value + step);
+                else
+                    Value = Math.Max(Minimum, Value - step);
+
+                // NIE wywołujemy base.OnMouseWheel(e);
+            }
+        }
         // Importy do przesuwania okna
         [DllImport("user32.dll")]
         public static extern bool ReleaseCapture();
@@ -53,9 +67,9 @@ namespace keystrokes_overlay
         private Button btnTextColor = null!;
         private Button btnArrowColor = null!;
         private Button btnOutlineColor = null!;
-        private NumericUpDown nudOutlineThickness = null!;
-        private NumericUpDown nudDurationTime = null!;
-        private NumericUpDown nudFadeoutTime = null!;
+        private WheelNumericUpDown nudOutlineThickness = null!;
+        private WheelNumericUpDown nudDurationTime = null!;
+        private WheelNumericUpDown nudFadeoutTime = null!;
 
         private GroupBox grpLetters = null!;
         private GroupBox grpNumbers = null!;
@@ -79,17 +93,21 @@ namespace keystrokes_overlay
 
         private readonly string[] Numbers =
         {
-            "0","1","2","3","4","5","6","7","8","9"
+            "0","1","2","3","4","5","6","7","8","9",
+            "NumPad0","NumPad1","NumPad2","NumPad3","NumPad4",
+            "NumPad5","NumPad6","NumPad7","NumPad8","NumPad9"
         };
 
         private readonly string[] SpecialKeys =
         {
-            "Lctrl","Rctrl","Lshift","Rshift","Lalt","Ralt",
+            "LMB","RMB","MMB","XMB1","XMB2", //mouse
+            "Up","Down","Left","Right",  //arrows
+            "Lctrl","Rctrl","Lshift","Rshift","Lalt","Ralt", //alt ,ctrl, shift
             "Backspace","Enter","Esc","Tab","Space",
-            "Insert","Delete","Home","End","PageUp","PageDown",
-            "Up","Down","Left","Right",
-            "F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12",
-            "LMB","RMB","MMB","XMB1","XMB2"
+            "Scroll","Pause","PrintScreen", "Insert","Delete","Home","End","PageUp","PageDown", //keys abouve arrows
+            "+","-","Divide","OemPeriod", "Oemcomma","Oem6", "Oem4", // +, -, /, ., ,, ],[
+            "OemSemicolon", "OemQuotes", "OemPeriod", // ;, ', ., /
+            "F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12"
         };
 
         public Form1()
@@ -113,8 +131,8 @@ namespace keystrokes_overlay
             Button btnClose = new Button
             {
                 Text = "X",
-                Size = new Size(20, 20),
-                Location = new Point(this.Width - 20, -5),
+                Size = new Size(20, 19),
+                Location = new Point(this.Width - 20, -4),
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Segoe UI", 7, FontStyle.Bold), // zmiana fontu i rozmiaru
                 ForeColor = Color.White,
@@ -130,8 +148,8 @@ namespace keystrokes_overlay
             Button btnMinimize = new Button
             {
                 Text = "–",
-                Size = new Size(20, 20),
-                Location = new Point(this.Width - 40, -5),
+                Size = new Size(20, 19),
+                Location = new Point(this.Width - 40, -4),
                 FlatStyle = FlatStyle.Flat,
                 Font = new Font("Segoe UI", 7, FontStyle.Bold), // zmiana fontu i rozmiaru
                 ForeColor = Color.White,
@@ -143,6 +161,29 @@ namespace keystrokes_overlay
             btnMinimize.FlatAppearance.BorderSize = 0;
             btnMinimize.Click += (s, e) => this.WindowState = FormWindowState.Minimized;
             this.Controls.Add(btnMinimize);
+
+            Button infoTooltip = new Button
+            {
+                Text = "?",
+                Size = new Size(20, 19),
+                Location = new Point(this.Width - 60, -4),
+                FlatStyle = FlatStyle.Flat,
+                Font = new Font("Segoe UI", 8, FontStyle.Regular), // zmiana fontu i rozmiaru
+                ForeColor = Color.White,
+                Cursor = Cursors.Help
+            };
+            // Hover
+            infoTooltip.MouseEnter += (s, e) => infoTooltip.BackColor = Color.FromArgb(255, 55, 55, 55); // czerwone po najechaniu
+            infoTooltip.MouseLeave += (s, e) => infoTooltip.BackColor = Color.Transparent; // normalnie przezroczysty
+            infoTooltip.FlatAppearance.BorderSize = 0;
+            ToolTip tt = new ToolTip
+            {
+                InitialDelay = 0,      // czas przed pokazaniem po najechaniu
+                ShowAlways = true
+            };
+            tt.SetToolTip(infoTooltip, "Ustawienia są zapisywane lokalnie.\nPo przeniesieniu programu zostanie utworzona nowa konfiguracja.\nNie przenoś aplikacji po ustawieniu opcji.");
+
+            this.Controls.Add(infoTooltip);
 
             DraggableLabel textTitle = new DraggableLabel
             {
@@ -199,7 +240,7 @@ namespace keystrokes_overlay
             textTitle3.MouseEnter += (s, e) => pb.Image = Properties.Resources.coffee; // kolor na hover
             textTitle3.MouseLeave += (s, e) => pb.Image = Properties.Resources.coffee2;   // przywrócenie koloru normalnego
 
-            pb.Click += (s, e) => Process.Start(new ProcessStartInfo("https://buymeacoffee.com") { UseShellExecute = true });
+            pb.Click += (s, e) => Process.Start(new ProcessStartInfo("https://buymeacoffee.com/exoriem") { UseShellExecute = true });
 
             this.Controls.Add(pb);
 
@@ -207,7 +248,7 @@ namespace keystrokes_overlay
             textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199);
             textTitle3.MouseEnter += (s, e) => textTitle3.LinkColor = Color.FromArgb(255, 30, 152, 255); // kolor na hover
             textTitle3.MouseLeave += (s, e) => textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199);   // przywrócenie koloru normalnego
-            textTitle3.LinkClicked += (s, e) => Process.Start(new ProcessStartInfo("https://buymeacoffee.com") { UseShellExecute = true });
+            textTitle3.LinkClicked += (s, e) => Process.Start(new ProcessStartInfo("https://buymeacoffee.com/exoriem") { UseShellExecute = true });
             Controls.Add(textTitle3);
 
             chkTopMost = new CheckBox
@@ -224,10 +265,10 @@ namespace keystrokes_overlay
             grpLetters = new GroupBox
             {
                 Text = "Letters",
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
                 ForeColor = Color.White,
                 Location = new Point(10, 40),
-                Size = new Size(150, 300),
-                Cursor = Cursors.Hand
+                Size = new Size(150, 300)
             };
 
             clbLetters = CreateCheckedListBox(Letters);
@@ -242,8 +283,7 @@ namespace keystrokes_overlay
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.FromArgb(25, 25, 25), // ciemnoszary
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 8, FontStyle.Bold),
-                Cursor = Cursors.Hand
+                Font = new Font("Segoe UI", 8, FontStyle.Bold)
             };
             // Efekt hover
             btnToggleLetters.MouseEnter += (s, e) => btnToggleLetters.BackColor = Color.FromArgb(70, 70, 70);
@@ -251,20 +291,37 @@ namespace keystrokes_overlay
 
             btnToggleLetters.Click += (s, e) => ToggleGroup(clbLetters);
             Controls.Add(btnToggleLetters);
-
+            clbLetters.MouseMove += (s, e) =>
+            {
+                int index = clbLetters.IndexFromPoint(e.Location);
+                clbLetters.Cursor = index != ListBox.NoMatches ? Cursors.Hand : Cursors.Default;
+            };
             // ===== NUMBERS =====
             grpNumbers = new GroupBox
             {
                 Text = "Numbers",
                 ForeColor = Color.White,
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
                 Location = new Point(180, 40),
-                Size = new Size(150, 300),
-                Cursor = Cursors.Hand
+                Size = new Size(150, 300)
             };
 
             clbNumbers = CreateCheckedListBox(Numbers);
             grpNumbers.Controls.Add(clbNumbers);
             Controls.Add(grpNumbers);
+            clbNumbers.MouseMove += (s, e) =>
+            {
+                int index = clbNumbers.IndexFromPoint(e.Location);
+                clbNumbers.Cursor = index != ListBox.NoMatches ? Cursors.Hand : Cursors.Default;
+            };
+            clbNumbers.MouseDown += (s, e) =>
+            {
+                int index = clbNumbers.IndexFromPoint(e.Location);
+                if (index == ListBox.NoMatches)
+                {
+                    clbNumbers.SelectedIndex = -1;
+                }
+            };
 
             btnToggleNumbers = new Button
             {
@@ -274,8 +331,7 @@ namespace keystrokes_overlay
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.FromArgb(25, 25, 25), // ciemnoszary
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 8, FontStyle.Bold),
-                Cursor = Cursors.Hand
+                Font = new Font("Segoe UI", 8, FontStyle.Bold)
             };
             // Efekt hover
             btnToggleNumbers.MouseEnter += (s, e) => btnToggleNumbers.BackColor = Color.FromArgb(70, 70, 70);
@@ -288,14 +344,19 @@ namespace keystrokes_overlay
             {
                 Text = "Special Keys",
                 ForeColor = Color.White,
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
                 Location = new Point(350, 40),
-                Size = new Size(150, 300),
-                Cursor = Cursors.Hand
+                Size = new Size(150, 300)
             };
 
             clbSpecial = CreateCheckedListBox(SpecialKeys);
             grpSpecial.Controls.Add(clbSpecial);
             Controls.Add(grpSpecial);
+            clbSpecial.MouseMove += (s, e) =>
+            {
+                int index = clbSpecial.IndexFromPoint(e.Location);
+                clbSpecial.Cursor = index != ListBox.NoMatches ? Cursors.Hand : Cursors.Default;
+            };
 
             btnToggleSpecial = new Button
             {
@@ -363,19 +424,19 @@ namespace keystrokes_overlay
             DraggableLabel lblOutlineThickness = new DraggableLabel { Text = "Outline Thickness:", Location = new Point(335, 385), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblOutlineThickness);
 
-            nudOutlineThickness = new NumericUpDown { Location = new Point(440, 383), Size = new Size(58, 25), Minimum = 0, Maximum = 2, Value = 0 , Cursor = Cursors.Hand, BorderStyle = BorderStyle.None };
+            nudOutlineThickness = new WheelNumericUpDown { Location = new Point(440, 383), Size = new Size(58, 25), Minimum = 0, Maximum = 2, Value = 0, Increment = 1, Cursor = Cursors.Hand, BorderStyle = BorderStyle.None };
             Controls.Add(nudOutlineThickness);
 
             DraggableLabel lblDurationTime = new DraggableLabel { Text = "Duration Time:", Location = new Point(10, 420), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblDurationTime);
 
-            nudDurationTime = new NumericUpDown { Location = new Point(100, 418), Size = new Size(60, 25), Minimum = 0, Maximum = 5000, Value = 500, Cursor = Cursors.Hand, BorderStyle = BorderStyle.None };
+            nudDurationTime = new WheelNumericUpDown { Location = new Point(100, 418), Size = new Size(60, 25), Minimum = 0, Maximum = 5000, Value = 500, Increment = 10, Cursor = Cursors.Hand, BorderStyle = BorderStyle.None };
             Controls.Add(nudDurationTime);
 
             DraggableLabel lblFadeoutTime = new DraggableLabel { Text = "Fade Out Time:", Location = new Point(170, 420), Font = new Font("Segoe UI", 8, FontStyle.Bold), AutoSize = true };
             Controls.Add(lblFadeoutTime);
 
-            nudFadeoutTime = new NumericUpDown { Location = new Point(260, 418), Size = new Size(60, 25), Minimum = 0, Maximum = 5000, Value = 500 , Cursor = Cursors.Hand, BorderStyle = BorderStyle.None };
+            nudFadeoutTime = new WheelNumericUpDown { Location = new Point(260, 418), Size = new Size(60, 25), Minimum = 0, Maximum = 5000, Value = 500, Increment = 10, Cursor = Cursors.Hand, BorderStyle = BorderStyle.None };
             Controls.Add(nudFadeoutTime);
 
         }
