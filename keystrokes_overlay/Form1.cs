@@ -94,19 +94,19 @@ namespace keystrokes_overlay
         private readonly string[] Numbers =
         {
             "0","1","2","3","4","5","6","7","8","9",
-            "NumPad0","NumPad1","NumPad2","NumPad3","NumPad4",
-            "NumPad5","NumPad6","NumPad7","NumPad8","NumPad9"
+            "Num0","Num1","Num2","Num3","Num4",
+            "Num5","Num6","Num7","Num8","Num9"      
         };
 
         private readonly string[] SpecialKeys =
         {
             "LMB","RMB","MMB","XMB1","XMB2", //mouse
-            "Up","Down","Left","Right",  //arrows
-            "Lctrl","Rctrl","Lshift","Rshift","Lalt","Ralt","LWin", //alt ,ctrl, shift
-            "Backspace","Enter","Esc","Tab","Space", "Capital", "NumLock",
-            "Scroll","Pause","PrintScreen", "Insert","Delete","Home","End","PageUp","Next", //keys abouve arrows
-            "+","-","Divide", "Oemplus","OemPeriod", "Oemcomma","Oem6", "Oem4", "Subtract", "Decimal", "Clear", // +, -, /, =, ., ,, ],[, -, ,
-            "OemSemicolon", "OemQuotes", "OemPeriod","Oemtilde", "OemPipe", "Apps",// ;, ', ., /, `. \
+            "Up","Down","Left","Right",
+            "Lctrl","Rctrl","Lshift","Rshift","Lalt","Ralt","LWin", "RWin",
+            "Backspace","Enter","Esc","Tab","Space", "CapsLock", "NumLock",
+            "ScrollLock","Pause","PrintScreen", "Insert","Delete","Home","End","PageUp","PageDown",
+            "Divide", "-", "=", "*", "Num+", ".", ",", "]", "[", "Num-", "Decimal", "Clear",
+            ";", "'","`", "/", "\\", "Menu",
             "F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12"
         };
 
