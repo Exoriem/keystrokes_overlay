@@ -98,11 +98,11 @@ namespace keystrokes_overlay
         {
             "LMB","RMB","MMB","XMB1","XMB2", //mouse
             "Up","Down","Left","Right",
-            "Lctrl","Rctrl","Lshift","Rshift","Lalt","Ralt","LWin", "RWin",
+            "Lctrl","Rctrl","Lshift","Rshift","Lalt","Ralt","LWin", "RWin", "Menu",
             "Backspace","Enter","Esc","Tab","Space", "CapsLock", "NumLock",
             "ScrollLock","Pause","PrintScreen", "Insert","Delete","Home","End","PageUp","PageDown",
-            "Divide", "-", "=", "*", "Num+", ".", ",", "]", "[", "Num-", "Decimal", "Clear",
-            ";", "'","`", "/", "\\", "Menu",
+            "Divide", "-", "=", "*", ".", ",", "]", "[", "Num-", "Num+", "Decimal", "Clear",
+            ";", "'","`", "/", "\\",
             "F1","F2","F3","F4","F5","F6","F7","F8","F9","F10","F11","F12"
         };
 
