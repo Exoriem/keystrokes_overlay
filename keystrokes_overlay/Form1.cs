@@ -279,7 +279,8 @@ namespace keystrokes_overlay
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.FromArgb(25, 25, 25),
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 8, FontStyle.Bold)
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
+                Cursor = Cursors.Hand
             };
             //  hover
             btnToggleLetters.MouseEnter += (s, e) => btnToggleLetters.BackColor = Color.FromArgb(70, 70, 70);
@@ -327,7 +328,8 @@ namespace keystrokes_overlay
                 FlatStyle = FlatStyle.Flat,
                 BackColor = Color.FromArgb(25, 25, 25), // ciemnoszary
                 ForeColor = Color.White,
-                Font = new Font("Segoe UI", 8, FontStyle.Bold)
+                Font = new Font("Segoe UI", 8, FontStyle.Bold),
+                Cursor = Cursors.Hand
             };
             // Efekt hover
             btnToggleNumbers.MouseEnter += (s, e) => btnToggleNumbers.BackColor = Color.FromArgb(70, 70, 70);
