@@ -236,7 +236,7 @@ namespace keystrokes_overlay
             textTitle3.MouseEnter += (s, e) => pb.Image = Properties.Resources.coffee; 
             textTitle3.MouseLeave += (s, e) => pb.Image = Properties.Resources.coffee2; 
 
-            pb.Click += (s, e) => Process.Start(new ProcessStartInfo("https://buymeacoffee.com/exoriem") { UseShellExecute = true });
+            pb.Click += (s, e) => Process.Start(new ProcessStartInfo("https://buycoffee.to/exoriem") { UseShellExecute = true });
 
             this.Controls.Add(pb);
 
@@ -244,7 +244,7 @@ namespace keystrokes_overlay
             textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199);
             textTitle3.MouseEnter += (s, e) => textTitle3.LinkColor = Color.FromArgb(255, 30, 152, 255);
             textTitle3.MouseLeave += (s, e) => textTitle3.LinkColor = Color.FromArgb(255, 142, 150, 199);
-            textTitle3.LinkClicked += (s, e) => Process.Start(new ProcessStartInfo("https://buymeacoffee.com/exoriem") { UseShellExecute = true });
+            textTitle3.LinkClicked += (s, e) => Process.Start(new ProcessStartInfo("https://buycoffee.to/exoriem") { UseShellExecute = true });
             Controls.Add(textTitle3);
 
             chkTopMost = new CheckBox
